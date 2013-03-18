@@ -204,25 +204,34 @@ $(document).ready(function(){
             if (binded)
                 return;
   
-            $("body").on('click.bootstro', ".bootstro-next-btn", function(e){
+            $("html").on('click.bootstro', ".bootstro-next-btn", function(e){
                 bootstro.next();
                 e.preventDefault();
                 return false;
             });
             
-            $("body").on('click.bootstro', ".bootstro-prev-btn", function(e){
+            $("html").on('click.bootstro', ".bootstro-prev-btn", function(e){
                 bootstro.prev();
                 e.preventDefault();
                 return false;
             });
       
             //end of show
-            $("body").on('click.bootstro', ".bootstro-finish-btn", function(e){
+            $("html").on('click.bootstro', ".bootstro-finish-btn", function(e){
                 bootstro.stop();
             });        
             
+            /*
+            $('html').on('click.bootstro', function(e) {
+                if($(e.target).closest('.popover').length == 0) {
+                     bootstro.stop();
+                    // click happened outside of menu, hide any visible menu items
+                }
+            });
+            */
+                
             //bind the key event
-            $(document).on('keypress.bootstro', function(e){
+            $(document).on('keydown.bootstro', function(e){
                 var code = (e.keyCode ? e.keyCode : e.which);
                 if (code == 39 || code == 40)
                     bootstro.next();
@@ -236,8 +245,8 @@ $(document).ready(function(){
         
         bootstro.unbind = function()
         {
-            $("body").unbind('click.bootstro');
-            $(document).unbind('keypress.bootstro');
+            $("html").unbind('click.bootstro');
+            $(document).unbind('keydown.bootstro');
             binded = false;
         }
            
