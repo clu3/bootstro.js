@@ -224,9 +224,9 @@ $(document).ready(function(){
             //bind the key event
             $(document).on('keypress.bootstro', function(e){
                 var code = (e.keyCode ? e.keyCode : e.which);
-                if (code == 39)
+                if (code == 39 || code == 40)
                     bootstro.next();
-                else if (code == 37)
+                else if (code == 37 || code == 38)
                     bootstro.prev();
                 else if(code == 27)
                     bootstro.stop();
