@@ -52,19 +52,19 @@ $(document).ready(function(){
         //get the element to intro at stack i 
         get_element = function(i)
         {
-            //get the element with bootstro-step=i 
+            //get the element with data-bootstro-step=i 
             //or otherwise the the natural order of the set
-            if ($elements.filter("[bootstro-step=" + i +"]").size() > 0)
-                return $elements.filter("[bootstro-step=" + i +"]");
+            if ($elements.filter("[data-bootstro-step=" + i +"]").size() > 0)
+                return $elements.filter("[data-bootstro-step=" + i +"]");
             else 
             {
                 return $elements.eq(i);
                 /*
                 nrOfElementsWithStep = 0;
-                $elements.filter("[bootstro-step!='']").each(function(j,e){
+                $elements.filter("[data-bootstro-step!='']").each(function(j,e){
                     nrOfElementsWithStep ++;
                     if (j > i)
-                        return $elements.filter(":not([bootstro-step])").eq(i - nrOfElementsWithStep);
+                        return $elements.filter(":not([data-bootstro-step])").eq(i - nrOfElementsWithStep);
                 })
                 */
             }
@@ -76,28 +76,28 @@ $(document).ready(function(){
             $el = get_element(i);
             //p.selector = selector;
             t = "<span class='label label-success'>" + (i +1)  + "/" + count + "</span>";
-            p.title = $el.attr('bootstro-title') || '';
+            p.title = $el.attr('data-bootstro-title') || '';
             if (p.title != '')
                 p.title = t + ' - ' + p.title;
             else 
                 p.title = t;
-            p.content = $el.attr('bootstro-content') || '';
+            p.content = $el.attr('data-bootstro-content') || '';
             p.content = add_nav_btn(p.content, i);
-            p.placement = $el.attr('bootstro-placement') || 'top';
+            p.placement = $el.attr('data-bootstro-placement') || 'top';
             var style = ''; 
-            if ($el.attr('bootstro-width'))
+            if ($el.attr('data-bootstro-width'))
             {
-                p.width = $el.attr('bootstro-width'); 
-                style = style + 'width:' + $el.attr('bootstro-width') + ';'
+                p.width = $el.attr('data-bootstro-width'); 
+                style = style + 'width:' + $el.attr('data-bootstro-width') + ';'
             }
-            if ($el.attr('bootstro-height'))
+            if ($el.attr('data-bootstro-height'))
             {
-                p.height = $el.attr('bootstro-height');
-                style = style + 'width:' + $el.attr('bootstro-height') + ';'
+                p.height = $el.attr('data-bootstro-height');
+                style = style + 'height:' + $el.attr('data-bootstro-height') + ';'
             }
             p.trigger = 'manual'; //always set to manual.
            
-            p.html = $el.attr('bootstro-html') || 'top';
+            p.html = $el.attr('data-bootstro-html') || 'top';
             
             //resize popover if it's explicitly specified
             //note: this is ugly. Could have been best if popover supports width & height
