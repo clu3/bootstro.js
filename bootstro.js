@@ -11,7 +11,6 @@
  * Bootstrap popover variable width
  * http://stackoverflow.com/questions/10028218/twitter-bootstrap-popovers-multiple-widths-and-other-css-properties
  * 
- * 
  */
 
 $(document).ready(function(){
@@ -22,14 +21,13 @@ $(document).ready(function(){
         var popovers = []; //contains array of the popovers data
         var activeIndex = null; //index of active item
 
-        var binded = false;
-        
         var defaults = {
             nextButton : '<button class="btn btn-primary btn-mini bootstro-next-btn">Next &raquo;</button>',
             prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
-            finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>'
+            finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
+            stopOnBackdropClick : true,
         };
-        var settings = defaults;
+        var settings;
         
         
         //===================PRIVATE METHODS======================
@@ -184,26 +182,25 @@ $(document).ready(function(){
         
         bootstro.start = function(selector, options)
         {
-            bootstro.bind();
-    
+            
+            settings = $.extend(true, {}, defaults); //deep copy
             //TODO: if options specifies a URL, get the intro text array from URL
             $.extend(settings, options || {});
             
             selector = selector || '.bootstro';
-            
             $elements = $(selector);
             count  = $elements.size();
               
             $('<div class="bootstro-backdrop"></div>').appendTo('body');
+            bootstro.bind();
             bootstro.go_to(0);
         };
           
         //bind the nav buttons click event
         bootstro.bind = function()
         {
-            if (binded)
-                return;
-  
+            bootstro.unbind();
+            
             $("html").on('click.bootstro', ".bootstro-next-btn", function(e){
                 bootstro.next();
                 e.preventDefault();
@@ -221,14 +218,13 @@ $(document).ready(function(){
                 bootstro.stop();
             });        
             
-            /*
-            $('html').on('click.bootstro', function(e) {
-                if($(e.target).closest('.popover').length == 0) {
-                     bootstro.stop();
-                    // click happened outside of menu, hide any visible menu items
-                }
-            });
-            */
+            if (settings.stopOnBackdropClick)
+            {
+                $("html").on('click.bootstro', 'div.bootstro-backdrop', function(e){
+                    if ($(e.target).hasClass('bootstro-backdrop'))
+                        bootstro.stop();
+                });
+            }
                 
             //bind the key event
             $(document).on('keydown.bootstro', function(e){
@@ -240,14 +236,12 @@ $(document).ready(function(){
                 else if(code == 27)
                     bootstro.stop();
             })
-            binded = true;   
         };
         
         bootstro.unbind = function()
         {
             $("html").unbind('click.bootstro');
             $(document).unbind('keydown.bootstro');
-            binded = false;
         }
            
      }( window.bootstro = window.bootstro || {}, jQuery ));
