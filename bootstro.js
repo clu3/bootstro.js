@@ -26,6 +26,7 @@ $(document).ready(function(){
             prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
             finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
             stopOnBackdropClick : true,
+            stopOnEsc : true
         };
         var settings;
         
@@ -233,7 +234,7 @@ $(document).ready(function(){
                     bootstro.next();
                 else if (code == 37 || code == 38)
                     bootstro.prev();
-                else if(code == 27)
+                else if(code == 27 && settings.stopOnEsc)
                     bootstro.stop();
             })
         };
