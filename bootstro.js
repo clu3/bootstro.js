@@ -41,7 +41,11 @@ $(document).ready(function(){
             if (count != 1)
             {
                 if (i == 0)
-                    content = content + settings.nextButton;
+                {
+                    if(count > 1) {
+                        content = content + settings.nextButton;
+                    }
+                }
                 else if (i == count -1 )
                     content = content + settings.prevButton;
                 else 
