@@ -38,12 +38,15 @@ $(document).ready(function(){
         {
             count = $elements.size();
             content = content + "<div class='bootstro-nav-wrapper'>";
-            if (i == 0)
-                content = content + settings.nextButton;
-            else if (i == count -1 )
-                content = content + settings.prevButton;
-            else 
-                content = content + settings.nextButton + settings.prevButton
+            if (count != 1)
+            {
+                if (i == 0)
+                    content = content + settings.nextButton;
+                else if (i == count -1 )
+                    content = content + settings.prevButton;
+                else 
+                    content = content + settings.nextButton + settings.prevButton
+            }
             content = content + '</div>';
               
             content = content +'<div class="bootstro-finish-btn-wrapper">' + settings.finishButton + '</div>';
@@ -76,12 +79,17 @@ $(document).ready(function(){
             var p = {};
             $el = get_element(i);
             //p.selector = selector;
-            t = "<span class='label label-success'>" + (i +1)  + "/" + count + "</span>";
+            var t = '';
+            if (count > 1)
+            {
+                t = "<span class='label label-success'>" + (i +1)  + "/" + count + "</span>";
+            }
             p.title = $el.attr('data-bootstro-title') || '';
-            if (p.title != '')
+            if (p.title != '' && t != '')
                 p.title = t + ' - ' + p.title;
-            else 
+            else if (p.title == '') 
                 p.title = t;
+
             p.content = $el.attr('data-bootstro-content') || '';
             p.content = add_nav_btn(p.content, i);
             p.placement = $el.attr('data-bootstro-placement') || 'top';
