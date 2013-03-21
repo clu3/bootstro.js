@@ -29,6 +29,9 @@ $(document).ready(function(){
             stopOnEsc : true
         };
         var settings;
+        var onCompleteFunc;
+        var onExitFunc;
+        var onStepFunc;
         
         
         //===================PRIVATE METHODS======================
@@ -141,6 +144,10 @@ $(document).ready(function(){
         //destroy active popover and remove backdrop
         bootstro.stop = function()
         {
+            //call onExit callback function if needed
+            if (this.onExitFunc != undefined) {
+                this.onExitFunc.call(this);
+            }
             bootstro.destroy_popover(activeIndex);
             bootstro.unbind();
             $("div.bootstro-backdrop").remove();
@@ -150,6 +157,10 @@ $(document).ready(function(){
         //go to the popover number idx starting from 0
         bootstro.go_to = function(idx) 
         {
+            //call onStep callback function if needed
+            if (this.onStepFunc != undefined) {
+                this.onStepFunc.call(this);
+            }
             //destroy current popover if any
             bootstro.destroy_popover(activeIndex);
             if (count != 0)
@@ -173,7 +184,10 @@ $(document).ready(function(){
         {
             if (activeIndex + 1 == count)
             {
-                alert('End of introduction');
+                //call onComplete callback function if needed
+                if (this.onCompleteFunc != undefined) {
+                    this.onCompleteFunc.call(this);
+                }
             }
             else 
                 bootstro.go_to(activeIndex + 1);
@@ -251,7 +265,28 @@ $(document).ready(function(){
         {
             $("html").unbind('click.bootstro');
             $(document).unbind('keydown.bootstro');
-        }
+        };
            
+        bootstro.on_complete = function(callbackFunction)
+        {
+            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
+                this.onCompleteFunc = callbackFunction;
+            }
+        };
+
+        bootstro.on_exit = function(callbackFunction)
+        {
+            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
+                this.onExitFunc = callbackFunction;
+            }
+        };
+
+        bootstro.on_step = function(callbackFunction)
+        {
+            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
+                this.onStepFunc = callbackFunction;
+            }
+        };
+
      }( window.bootstro = window.bootstro || {}, jQuery ));
 });
