@@ -2,15 +2,14 @@
  * Bootstro.js Simple way to show your user around, especially first time users 
  * Http://github.com/clu3/bootstro.js
  * 
- * Use it freely as you like
- * 
  * Credit thanks to 
  * Revealing Module Pattern from 
  * http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
  * 
- * Bootstrap popover variable width
+ * Bootstrap popover variable width workaround
  * http://stackoverflow.com/questions/10028218/twitter-bootstrap-popovers-multiple-widths-and-other-css-properties
- * 
+ *
+ * Lisence : MIT . See accompanied LICENSE file. 
  */
 
 $(document).ready(function(){
