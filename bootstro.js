@@ -212,13 +212,14 @@ $(document).ready(function(){
         //destroy active popover and remove backdrop
         bootstro.stop = function()
         {
-            
-            if("storyboard" in bootstro.settings)
-            {    
-                for (var i in bootstro.settings.storyboard)
+            if(bootstro.settings.storyboard)
+            {
+                var storyboard = bootstro.settings.storyboard;
+                for(var x in storyboard)
                 {
-                    console.log("scene");
-                    $(bootstro.settings.storyboard[i].element)
+                    console.log(x);
+                    if(storyboard[x].onStop && (storyboard[x].onStop instanceof Function))
+                        storyboard[x].onStop(storyboard[x]);
                 }
             }
             
