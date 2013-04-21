@@ -145,7 +145,7 @@ $(document).ready(function(){
         {
             //call onExit callback function if needed
             if (this.onExitFunc != undefined) {
-                this.onExitFunc.call(this);
+                this.onExitFunc.call(this, { idx : activeIndex });
             }
             bootstro.destroy_popover(activeIndex);
             bootstro.unbind();
@@ -158,7 +158,7 @@ $(document).ready(function(){
         {
             //call onStep callback function if needed
             if (this.onStepFunc != undefined) {
-                this.onStepFunc.call(this);
+                this.onStepFunc.call(this, { idx : idx  });
             }
             //destroy current popover if any
             bootstro.destroy_popover(activeIndex);
@@ -185,7 +185,7 @@ $(document).ready(function(){
             {
                 //call onComplete callback function if needed
                 if (this.onCompleteFunc != undefined) {
-                    this.onCompleteFunc.call(this);
+                    this.onCompleteFunc.call(this, { idx : activeIndex });
                 }
             }
             else 
