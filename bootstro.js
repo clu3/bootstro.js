@@ -185,7 +185,7 @@ $(document).ready(function(){
             {
                 //call onComplete callback function if needed
                 if (this.onCompleteFunc != undefined) {
-                    this.onCompleteFunc.call(this);
+                    this.onCompleteFunc.call(this, { idx : activeIndex });
                 }
             }
             else 
