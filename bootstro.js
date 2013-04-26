@@ -23,7 +23,7 @@ $(document).ready(function(){
         var defaults = {
             nextButton : '<button class="btn btn-primary btn-mini bootstro-next-btn">Next &raquo;</button>',
             prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
-            finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
+            finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn" type="button"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
             stopOnBackdropClick : true,
             stopOnEsc : true
         };
