@@ -212,10 +212,15 @@ $(document).ready(function(){
             selector = selector || '.bootstro';
             $elements = $(selector);
             count  = $elements.size();
-              
-            $('<div class="bootstro-backdrop"></div>').appendTo('body');
-            bootstro.bind();
-            bootstro.go_to(0);
+            
+            if ($('div.bootstro-backdrop').length === 0)
+            {
+                // Prevents multiple copies
+                $('<div class="bootstro-backdrop"></div>').appendTo('body');
+                bootstro.bind();
+                bootstro.go_to(0);
+            } 
+            
         };
           
         //bind the nav buttons click event
