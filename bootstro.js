@@ -6,10 +6,9 @@
  * Revealing Module Pattern from 
  * http://enterprisejquery.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
  * 
- * Bootstrap popover variable width workaround
+ * Bootstrap popover variable width
  * http://stackoverflow.com/questions/10028218/twitter-bootstrap-popovers-multiple-widths-and-other-css-properties
- *
- * Lisence : MIT . See accompanied LICENSE file. 
+ * 
  */
 
 $(document).ready(function(){
@@ -21,37 +20,110 @@ $(document).ready(function(){
         var activeIndex = null; //index of active item
 
         var defaults = {
-            nextButton : '<button class="btn btn-primary btn-mini bootstro-next-btn">Next &raquo;</button>',
-            prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
-            finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn" type="button"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
+            nextButtonText : 'Next &raquo;', //will be wrapped with button as below
+            //nextButton : '<button class="btn btn-primary btn-mini bootstro-next-btn">Next &raquo;</button>',
+            prevButtonText : '&laquo; Prev',
+            //prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
+            finishButtonText : '<i class="icon-ok"></i> Ok I got it, get back to the site',
+            //finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
             stopOnBackdropClick : true,
-            stopOnEsc : true
+            stopOnEsc : true,
+            
+            //onComplete : function(params){} //params = {idx : activeIndex}
+            //onExit : function(params){} //params = {idx : activeIndex}
+            //onStep : function(params){} //params = {idx : activeIndex, direction : [next|prev]}
+            //url : String // ajaxed url to get show data from
+            
+            margin : 100, //if the currently shown element's margin is less than this value
+            // the element should be scrolled so that i can be viewed properly. This is useful 
+            // for sites which have fixed top/bottom nav bar
         };
         var settings;
-        var onCompleteFunc;
-        var onExitFunc;
-        var onStepFunc;
         
         
         //===================PRIVATE METHODS======================
+        //http://stackoverflow.com/questions/487073/check-if-element-is-visible-after-scrolling
+        function is_entirely_visible($elem)
+        {
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var elemTop = $elem.offset().top;
+            var elemBottom = elemTop + $elem.height();
+
+            return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom)
+              && (elemBottom <= docViewBottom) &&  (elemTop >= docViewTop) );
+        }
+        
         //add the nav buttons to the popover content;
         
         function add_nav_btn(content, i)
         {
-            count = $elements.size();
+            var $el = get_element(i);
+            var nextButton, prevButton, finishButton;
+            
             content = content + "<div class='bootstro-nav-wrapper'>";
+            if ($el.attr('data-bootstro-nextButton'))
+            {
+                nextButton = $el.attr('data-bootstro-nextButton');
+            }
+            else if ( $el.attr('data-bootstro-nextButtonText') )
+            {
+                nextButton = '<button class="btn btn-primary btn-mini bootstro-next-btn">' + $el.attr('data-bootstro-nextButtonText') +  '</button>';
+            }
+            else 
+            {
+                if (typeof settings.nextButton != 'undefined' /*&& settings.nextButton != ''*/)
+                    nextButton = settings.nextButton;
+                else
+                    nextButton = '<button class="btn btn-primary btn-mini bootstro-next-btn">' + settings.nextButtonText + '</button>';
+            }
+            
+            if ($el.attr('data-bootstro-prevButton'))
+            {
+                prevButton = $el.attr('data-bootstro-prevButton');
+            }
+            else if ( $el.attr('data-bootstro-prevButtonText') )
+            {
+                prevButton = '<button class="btn btn-primary btn-mini bootstro-prev-btn">' + $el.attr('data-bootstro-prevButtonText') +  '</button>';
+            }
+            else 
+            {
+                if (typeof settings.prevButton != 'undefined' /*&& settings.prevButton != ''*/)
+                    prevButton = settings.prevButton;
+                else
+                    prevButton = '<button class="btn btn-primary btn-mini bootstro-prev-btn">' + settings.prevButtonText + '</button>';
+            }
+            
+            if ($el.attr('data-bootstro-finishButton'))
+            {
+                finishButton = $el.attr('data-bootstro-finishButton');
+            }
+            else if ( $el.attr('data-bootstro-finishButtonText') )
+            {
+                finishButton = '<button class="btn btn-primary btn-mini bootstro-finish-btn">' + $el.attr('data-bootstro-finishButtonText') +  '</button>';
+            }
+            else 
+            {
+                if (typeof settings.finishButton != 'undefined' /*&& settings.finishButton != ''*/)
+                    finishButton = settings.finishButton;
+                else
+                    finishButton = '<button class="btn btn-primary btn-mini bootstro-finish-btn">' + settings.finishButtonText + '</button>';
+            }
+
+        
             if (count != 1)
             {
                 if (i == 0)
-                    content = content + settings.nextButton;
+                    content = content + nextButton;
                 else if (i == count -1 )
-                    content = content + settings.prevButton;
+                    content = content + prevButton;
                 else 
-                    content = content + settings.nextButton + settings.prevButton
+                    content = content + nextButton + prevButton
             }
             content = content + '</div>';
               
-            content = content +'<div class="bootstro-finish-btn-wrapper">' + settings.finishButton + '</div>';
+            content = content +'<div class="bootstro-finish-btn-wrapper">' + finishButton + '</div>';
             return content;
         }
         
@@ -79,7 +151,7 @@ $(document).ready(function(){
         get_popup = function(i)
         {
             var p = {};
-            $el = get_element(i);
+            var $el = get_element(i);
             //p.selector = selector;
             var t = '';
             if (count > 1)
@@ -123,10 +195,10 @@ $(document).ready(function(){
         //destroy popover at stack index i
         bootstro.destroy_popover = function(i)
         {
-            i = i || 0;
+            var i = i || 0;
             if (i != 'all')
             {
-                $el = get_element(i);//$elements.eq(i); 
+                var $el = get_element(i);//$elements.eq(i); 
                 $el.popover('destroy').removeClass('bootstro-highlight');
             }
             /*
@@ -143,83 +215,131 @@ $(document).ready(function(){
         //destroy active popover and remove backdrop
         bootstro.stop = function()
         {
-            //call onExit callback function if needed
-            if (this.onExitFunc != undefined) {
-                this.onExitFunc.call(this, { idx : activeIndex });
-            }
             bootstro.destroy_popover(activeIndex);
             bootstro.unbind();
             $("div.bootstro-backdrop").remove();
+            if (typeof settings.onExit == 'function')
+                settings.onExit.call(this,{idx : activeIndex});
         };
 
-        
         //go to the popover number idx starting from 0
         bootstro.go_to = function(idx) 
         {
-            //call onStep callback function if needed
-            if (this.onStepFunc != undefined) {
-                this.onStepFunc.call(this, { idx : idx  });
-            }
             //destroy current popover if any
             bootstro.destroy_popover(activeIndex);
             if (count != 0)
             {
-                p = get_popup(idx);
-                $el = get_element(idx);
+                var p = get_popup(idx);
+                var $el = get_element(idx);
                 
                 $el.popover(p).popover('show');
                   
-                min = Math.min($(".popover.in").offset().top, $el.offset().top);
-                $('html,body').animate({
-                    scrollTop: min - 20},
-                'slow');
+                //scroll if neccessary
+                var docviewTop = $(window).scrollTop();
+                var top = Math.min($(".popover.in").offset().top, $el.offset().top);
+                
+                //distance between docviewTop & min.
+                var topDistance = top - docviewTop;
+                
+                if (topDistance < settings.margin) //the element too up above
+                    $('html,body').animate({
+                        scrollTop: top - settings.margin},
+                    'slow');
+                else if(!is_entirely_visible($(".popover.in")) || !is_entirely_visible($el))
+                    //the element is too down below
+                    $('html,body').animate({
+                        scrollTop: top - settings.margin},
+                    'slow');
                 // html 
                   
                 $el.addClass('bootstro-highlight');
                 activeIndex = idx;
             }
         };
+        
         bootstro.next = function()
         {
             if (activeIndex + 1 == count)
             {
-                //call onComplete callback function if needed
-                if (this.onCompleteFunc != undefined) {
-                    this.onCompleteFunc.call(this, { idx : activeIndex });
-                }
+                if (typeof settings.onComplete == 'function')
+                    settings.onComplete.call(this, {idx : activeIndex});//
             }
             else 
+            {
                 bootstro.go_to(activeIndex + 1);
+                if (typeof settings.onStep == 'function')
+                    settings.onStep.call(this, {idx : activeIndex, direction : 'next'});//
+            }
         };
         
         bootstro.prev = function()
         {
             if (activeIndex == 0)
             {
-                alert('At start of intros');
+                /*
+                if (typeof settings.onRewind == 'function')
+                    settings.onRewind.call(this, {idx : activeIndex, direction : 'prev'});//
+                */
             }
-            else 
+            else
+            {
                 bootstro.go_to(activeIndex -1);
+                if (typeof settings.onStep == 'function')
+                    settings.onStep.call(this, {idx : activeIndex, direction : 'prev'});//
+            }
         };
         
-        bootstro.start = function(selector, options)
+        bootstro._start = function(selector)
         {
-            
-            settings = $.extend(true, {}, defaults); //deep copy
-            //TODO: if options specifies a URL, get the intro text array from URL
-            $.extend(settings, options || {});
-            
             selector = selector || '.bootstro';
+
             $elements = $(selector);
             count  = $elements.size();
-            
-            if ($('div.bootstro-backdrop').length === 0)
+            if (count > 0 && $('div.bootstro-backdrop').length === 0)
             {
                 // Prevents multiple copies
                 $('<div class="bootstro-backdrop"></div>').appendTo('body');
                 bootstro.bind();
                 bootstro.go_to(0);
-            } 
+            }
+        };
+        
+        bootstro.start = function(selector, options)
+        {
+            settings = $.extend(true, {}, defaults); //deep copy
+            $.extend(settings, options || {});
+            //if options specifies a URL, get the intro configuration from URL via ajax
+            if (typeof settings.url != 'undefined')
+            {
+                //get config from ajax
+                $.ajax({
+                    url : settings.url,
+                    success : function(data){
+                        if (data.success)
+                        {
+                            //result is an array of {selector:'','title':'','width', ...}
+                            var popover = data.result;
+                            //console.log(popover);
+                            var selectorArr = [];
+                            $.each(popover, function(t,e){
+                                //only deal with the visible element
+                                //build the selector
+                                $.each(e, function(j, attr){
+                                    $(e.selector).attr('data-bootstro-' + j, attr);
+                                });
+                                if ($(e.selector).is(":visible"))
+                                    selectorArr.push(e.selector);
+                            });
+                            selector = selectorArr.join(",");
+                            bootstro._start(selector);
+                        }
+                    }
+                });
+            }
+            else 
+            {
+                bootstro._start(selector);
+            }
             
         };
           
@@ -269,28 +389,7 @@ $(document).ready(function(){
         {
             $("html").unbind('click.bootstro');
             $(document).unbind('keydown.bootstro');
-        };
+        }
            
-        bootstro.on_complete = function(callbackFunction)
-        {
-            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
-                this.onCompleteFunc = callbackFunction;
-            }
-        };
-
-        bootstro.on_exit = function(callbackFunction)
-        {
-            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
-                this.onExitFunc = callbackFunction;
-            }
-        };
-
-        bootstro.on_step = function(callbackFunction)
-        {
-            if (Object.prototype.toString.call(callbackFunction) == '[object Function]') {
-                this.onStepFunc = callbackFunction;
-            }
-        };
-
      }( window.bootstro = window.bootstro || {}, jQuery ));
 });
