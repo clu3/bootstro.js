@@ -1,0 +1,1 @@
+{"success":true,"result":[{"selector":"#demo_stopOn","title":"Ajaxed title from server","content":"I was found because I have selector=#demo_stopOn","width":"400px","placement":"right"},{"selector":"#demo_ajax","title":"Ajaxed Title 2","content":"I was found because I have selector=#demo_ajax","width":"400px","placement":"right"}]}
