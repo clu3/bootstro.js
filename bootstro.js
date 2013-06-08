@@ -131,9 +131,23 @@ $(document).ready(function(){
         }
 
         nextIndex = function(currentIndex){
-            var closestIndex = null
+            closestIndex = null
+            // loop and find the next available value less than or equal to the currentIndex
             $.each(indexes, function(){
                 if (parseInt(this) >= parseInt(currentIndex)) {
+                    closestIndex = this;
+                    return false;
+                  }
+            });
+            return closestIndex;
+        }
+
+        prevIndex = function(currentIndex){
+            closestIndex   = null
+            reverseIndexes = $.makeArray(indexes).reverse()
+            // loop and find the previous available value less than or equal to the currentIndex 
+            $.each(reverseIndexes, function(){
+                if (parseInt(this) <= parseInt(currentIndex)) {
                     closestIndex = this;
                     return false;
                   }
@@ -164,7 +178,7 @@ $(document).ready(function(){
         }
 
         getStepCount = function(i){
-            return defaultOrder ? (i) : $.inArray(parseInt(i), indexes)
+            return defaultOrder ? i : $.inArray(parseInt(i), indexes)
         }
         
         get_popup = function(i)
@@ -295,7 +309,8 @@ $(document).ready(function(){
         
         bootstro.prev = function()
         {
-            if (activeIndex == 0)
+            indexToEnd = defaultOrder ? 0 : indexes.get(0)
+            if (activeIndex == indexToEnd)
             {
                 /*
                 if (typeof settings.onRewind == 'function')
@@ -304,7 +319,7 @@ $(document).ready(function(){
             }
             else
             {
-                bootstro.go_to(activeIndex -1);
+                defaultOrder ? bootstro.go_to(activeIndex - 1) : bootstro.go_to(prevIndex(activeIndex - 1));
                 if (typeof settings.onStep == 'function')
                     settings.onStep.call(this, {idx : activeIndex, direction : 'prev'});//
             }
@@ -323,7 +338,9 @@ $(document).ready(function(){
                 bootstro.bind();
                 
                 indexes = $elements.map(function(){ return parseInt($(this).attr('data-bootstro-step')) })
-                defaultOrder = $.grep(indexes,function(x){ return !(isNaN(x)) }).length == 0 ? true : false
+                defaultOrder = $.grep(indexes, function(x){ return !(isNaN(x)) }).length == 0 ? true : false
+                // set defaultOrder to true inorder to follow DOM order when all the elements are not provided with data-bootstro-step attr
+
                 if (!defaultOrder)
                     indexes = indexes.sort(function(a, b){ return a - b })
 
