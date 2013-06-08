@@ -130,11 +130,11 @@ $(document).ready(function(){
             return content;
         }
 
-        nextIndex = function(currentIndex){
+        nextIndex = function(indexToTry){
             closestIndex = null
-            // loop and find the next available value less than or equal to the currentIndex
+            // loop and find the next available value less than or equal to the indexToTry
             $.each(indexes, function(){
-                if (parseInt(this) >= parseInt(currentIndex)) {
+                if (parseInt(this) >= parseInt(indexToTry)) {
                     closestIndex = this;
                     return false;
                   }
@@ -142,12 +142,12 @@ $(document).ready(function(){
             return closestIndex;
         }
 
-        prevIndex = function(currentIndex){
+        prevIndex = function(indexToTry){
             closestIndex   = null
             reverseIndexes = $.makeArray(indexes).reverse()
-            // loop and find the previous available value less than or equal to the currentIndex 
+            // loop and find the previous available value less than or equal to the indexToTry 
             $.each(reverseIndexes, function(){
-                if (parseInt(this) <= parseInt(currentIndex)) {
+                if (parseInt(this) <= parseInt(indexToTry)) {
                     closestIndex = this;
                     return false;
                   }
