@@ -127,6 +127,22 @@ $(document).ready(function(){
             return content;
         }
         
+        //prep objects from json and return selector
+        process_items = function(popover) 
+        {
+            var selectorArr = [];
+            $.each(popover, function(t,e){
+                //only deal with the visible element
+                //build the selector
+                $.each(e, function(j, attr){
+                    $(e.selector).attr('data-bootstro-' + j, attr);
+                });
+                if ($(e.selector).is(":visible"))
+                    selectorArr.push(e.selector);
+            });
+            return selectorArr.join(",");
+        }
+
         //get the element to intro at stack i 
         get_element = function(i)
         {
@@ -320,21 +336,17 @@ $(document).ready(function(){
                             //result is an array of {selector:'','title':'','width', ...}
                             var popover = data.result;
                             //console.log(popover);
-                            var selectorArr = [];
-                            $.each(popover, function(t,e){
-                                //only deal with the visible element
-                                //build the selector
-                                $.each(e, function(j, attr){
-                                    $(e.selector).attr('data-bootstro-' + j, attr);
-                                });
-                                if ($(e.selector).is(":visible"))
-                                    selectorArr.push(e.selector);
-                            });
-                            selector = selectorArr.join(",");
+                            selector = process_items(popover);
                             bootstro._start(selector);
                         }
                     }
                 });
+            }
+            //if options specifies an items object use it to load the intro configuration
+            //settings.items is an array of {selector:'','title':'','width', ...}
+            else if (typeof settings.items != 'undefined')
+            {
+                bootstro._start(process_items(settings.items))
             }
             else 
             {
