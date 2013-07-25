@@ -39,7 +39,8 @@ $(document).ready(function(){
             // for sites which have fixed top/bottom nav bar        
 
             showBackdrop: true, // If false, don't show the overlay.
-
+            useBackdropMethod2: false, // Use alternative method to paint backdrop. Work around when there's 
+            // z-index stack confusion (iScroll, etc)
         };
         var settings;
         
@@ -183,6 +184,7 @@ $(document).ready(function(){
             else if (p.title == '') 
                 p.title = t;
 
+            p.container = '#bootstro-wrapper';
             p.content = $el.attr('data-bootstro-content') || '';
             p.content = add_nav_btn(p.content, i);
             p.placement = $el.attr('data-bootstro-placement') || 'top';
@@ -252,7 +254,11 @@ $(document).ready(function(){
                 var $el = get_element(idx);
                 
                 $el.popover(p).popover('show');
-                  
+                $('#bootstro-top').css({top: 0, left: 0, height: $el.offset().top + 'px', width: '100%'});
+                $('#bootstro-left').css({top: $el.offset().top, left: 0, height: $el.outerHeight() + 'px', width: $el.offset().left + 'px'});
+                $('#bootstro-right').css({top: $el.offset().top, left: -1 + $el.offset().left + $el.outerWidth() + 'px', height: $el.outerHeight() + 'px', width: '100%' });
+                $('#bootstro-bot').css({top: $el.offset().top + + $el.outerHeight() + 'px', left: 0, height: '100%', width: '100%' });
+
                 //scroll if neccessary
                 var docviewTop = $(window).scrollTop();
                 var top = Math.min($(".popover.in").offset().top, $el.offset().top);
@@ -317,7 +323,23 @@ $(document).ready(function(){
             if (count > 0 && $('div.bootstro-backdrop').length === 0)
             {
                 // Prevents multiple copies
-                if (settings.showBackdrop) $('<div class="bootstro-backdrop"></div>').appendTo('body');
+                if (settings.showBackdrop)
+                {
+                    if (!settings.useBackdropMethod2)
+                    {
+                        $('<div id="bootstro-wrapper"><div class="bootstro-backdrop"></div></div>').appendTo('body');  
+                    } 
+                    else
+                    {
+                        // Create a box to "punch a hole" through to the element. This works better if you're
+                        // using something that does 3d transforms with z-Index (i.e. iScroll)
+                        $('<div id="bootstro-wrapper" style="z-index: 1;"></div>').appendTo('body');
+                        $('<div id="bootstro-top" class="bootstro-backdrop2"></div>').appendTo('#bootstro-wrapper');  
+                        $('<div id="bootstro-left" class="bootstro-backdrop2"></div>').appendTo('#bootstro-wrapper');
+                        $('<div id="bootstro-right" class="bootstro-backdrop2"></div>').appendTo('#bootstro-wrapper');
+                        $('<div id="bootstro-bot" class="bootstro-backdrop2"></div>').appendTo('#bootstro-wrapper');
+                    }
+                } 
                 bootstro.bind();
                 bootstro.go_to(0);
             }
