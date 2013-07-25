@@ -36,7 +36,10 @@ $(document).ready(function(){
             
             margin : 100, //if the currently shown element's margin is less than this value
             // the element should be scrolled so that i can be viewed properly. This is useful 
-            // for sites which have fixed top/bottom nav bar
+            // for sites which have fixed top/bottom nav bar        
+
+            showBackdrop: true, // If false, don't show the overlay.
+
         };
         var settings;
         
@@ -314,7 +317,7 @@ $(document).ready(function(){
             if (count > 0 && $('div.bootstro-backdrop').length === 0)
             {
                 // Prevents multiple copies
-                $('<div class="bootstro-backdrop"></div>').appendTo('body');
+                if (settings.showBackdrop) $('<div class="bootstro-backdrop"></div>').appendTo('body');
                 bootstro.bind();
                 bootstro.go_to(0);
             }
