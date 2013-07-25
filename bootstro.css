@@ -45,4 +45,20 @@
 	font-weight:bold;
 }
 
+.bootstro-nav-wrapper button, .bootstro-finish-btn-wrapper button 
+{
+	font-size:12px !important;	
+	padding : 3px 5px 3px 5px !important;
+	font-weight:bold;
+}
+
+.bootstro-backdrop2
+{
+    position: fixed;
+    z-index: 2;
+    opacity: 0.5;
+    background-color: black;
+    filter: alpha(opacity = 50);    
+}
+
 
