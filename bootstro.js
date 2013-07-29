@@ -239,6 +239,7 @@ $(document).ready(function(){
             bootstro.destroy_popover(activeIndex);
             bootstro.unbind();
             $("div.bootstro-backdrop").remove();
+            $("div.bootstro-backdrop2").remove();
             if (typeof settings.onExit == 'function')
                 settings.onExit.call(this,{idx : activeIndex});
         };
@@ -404,8 +405,13 @@ $(document).ready(function(){
             
             if (settings.stopOnBackdropClick)
             {
-                $("html").on('click.bootstro', 'div.bootstro-backdrop', function(e){
-                    if ($(e.target).hasClass('bootstro-backdrop'))
+                if (settings.useBackdropMethod2) {
+                    var classname = 'bootstro-backdrop2';
+                } else {
+                    var classname = 'bootstro-backdrop';
+                }
+                $("html").on('click.bootstro', 'div.' + classname, function(e){
+                    if ($(e.target).hasClass(classname))
                         bootstro.stop();
                 });
             }
