@@ -374,6 +374,7 @@ $(document).ready(function(){
       
             //end of show
             $("html").on('click.bootstro', ".bootstro-finish-btn", function(e){
+                e.preventDefault();
                 bootstro.stop();
             });        
             
