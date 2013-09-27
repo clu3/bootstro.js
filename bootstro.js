@@ -18,6 +18,9 @@ $(document).ready(function(){
         var count;
         var popovers = []; //contains array of the popovers data
         var activeIndex = null; //index of active item
+        var defaultOrder = true; 
+        // if true the DOM order is followed. it is changed to false when step index is given for atleast one element.
+        // refer line #322
 
         var defaults = {
             nextButtonText : 'Next &raquo;', //will be wrapped with button as below
@@ -126,6 +129,32 @@ $(document).ready(function(){
             content = content +'<div class="bootstro-finish-btn-wrapper">' + finishButton + '</div>';
             return content;
         }
+
+        nextIndex = function(indexToTry){
+            closestIndex = null
+            // loop and find the next available value less than or equal to the indexToTry
+            $.each(indexes, function(){
+                if (parseInt(this) >= parseInt(indexToTry)) {
+                    closestIndex = this;
+                    return false;
+                  }
+            });
+            return closestIndex;
+        }
+
+        prevIndex = function(indexToTry){
+            closestIndex   = null
+            reverseIndexes = $.makeArray(indexes).reverse()
+            // loop and find the previous available value less than or equal to the indexToTry 
+            $.each(reverseIndexes, function(){
+                if (parseInt(this) <= parseInt(indexToTry)) {
+                    closestIndex = this;
+                    return false;
+                  }
+            });
+            return closestIndex;
+        }
+
         
         //prep objects from json and return selector
         process_items = function(popover) 
@@ -163,6 +192,10 @@ $(document).ready(function(){
                 */
             }
         }
+
+        getStepCount = function(i){
+            return defaultOrder ? i : $.inArray(parseInt(i), indexes)
+        }
         
         get_popup = function(i)
         {
@@ -172,7 +205,7 @@ $(document).ready(function(){
             var t = '';
             if (count > 1)
             {
-                t = "<span class='label label-success'>" + (i +1)  + "/" + count + "</span>";
+                t = "<span class='label label-success'>" + (getStepCount(i)+1)  + "/" + count + "</span>";
             }
             p.title = $el.attr('data-bootstro-title') || '';
             if (p.title != '' && t != '')
@@ -235,7 +268,7 @@ $(document).ready(function(){
             bootstro.unbind();
             $("div.bootstro-backdrop").remove();
             if (typeof settings.onExit == 'function')
-                settings.onExit.call(this,{idx : activeIndex});
+                settings.onExit.call(this,{idx : getStepCount(activeIndex)});
         };
 
         //go to the popover number idx starting from 0
@@ -275,14 +308,16 @@ $(document).ready(function(){
         
         bootstro.next = function()
         {
-            if (activeIndex + 1 == count)
+            indexToEnd = defaultOrder ? count-1 : indexes.get(-1)
+            if (activeIndex == indexToEnd)
             {
                 if (typeof settings.onComplete == 'function')
-                    settings.onComplete.call(this, {idx : activeIndex});//
+                    settings.onComplete.call(this, {idx : getStepCount(activeIndex)});//
             }
             else 
             {
-                bootstro.go_to(activeIndex + 1);
+                // bootstro.go_to(activeIndex + 1);
+                defaultOrder ? bootstro.go_to(activeIndex + 1) : bootstro.go_to(nextIndex(activeIndex + 1));
                 if (typeof settings.onStep == 'function')
                     settings.onStep.call(this, {idx : activeIndex, direction : 'next'});//
             }
@@ -290,7 +325,8 @@ $(document).ready(function(){
         
         bootstro.prev = function()
         {
-            if (activeIndex == 0)
+            indexToEnd = defaultOrder ? 0 : indexes.get(0)
+            if (activeIndex == indexToEnd)
             {
                 /*
                 if (typeof settings.onRewind == 'function')
@@ -299,7 +335,7 @@ $(document).ready(function(){
             }
             else
             {
-                bootstro.go_to(activeIndex -1);
+                defaultOrder ? bootstro.go_to(activeIndex - 1) : bootstro.go_to(prevIndex(activeIndex - 1));
                 if (typeof settings.onStep == 'function')
                     settings.onStep.call(this, {idx : activeIndex, direction : 'prev'});//
             }
@@ -316,7 +352,16 @@ $(document).ready(function(){
                 // Prevents multiple copies
                 $('<div class="bootstro-backdrop"></div>').appendTo('body');
                 bootstro.bind();
-                bootstro.go_to(0);
+                
+                indexes = $elements.map(function(){ return parseInt($(this).attr('data-bootstro-step')) })
+                defaultOrder = $.grep(indexes, function(x){ return !(isNaN(x)) }).length == 0 ? true : false
+                // set defaultOrder to true inorder to follow DOM order when all the elements are not provided with data-bootstro-step attr
+
+                if (!defaultOrder)
+                    indexes = indexes.sort(function(a, b){ return a - b })
+
+                defaultOrder ? bootstro.go_to(0) : bootstro.go_to(nextIndex(0));
+                // bootstro.go_to(0);
             }
         };
         
