@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstro.js Test with Bootstrap 3</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css"/>
+  <link rel="stylesheet" href="/src/bootstro3.css"/>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <script src='/src/bootstro3.js'></script>
+</head>
+<body>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-md-1 bootstro' data-bootstro-title='First title' data-bootstro-content='my first content' data-bootstro-placement='bottom'>See me first</div>
+      <div class='col-md-1 bootstro' data-bootstro-title='Second title' data-bootstro-content='my second content' data-bootstro-placement='bottom'>See me second</div>
+    </div>  
+  </div>
+  <script>
+    $(document).ready(function() {bootstro.start();});
+  </script>
+</body>
+</html>

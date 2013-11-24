@@ -7,13 +7,19 @@ module.exports = function(grunt) {
         banner:'/*! <%= pkg.name%> - v<%= pkg.version%> - <%=pkg.bugs.url%>*/\n'
       },
       default: {
-        files: { 'dist/bootstro.min.js':['dist/bootstro.js'] }
+        files: { 
+          'dist/bootstro.min.js':['dist/bootstro.js'],
+          'dist/bootstro3.min.js':['dist/bootstro3.js']
+        }
       }
     },
     cssmin: {
       options: { report:'min' },
       default: {
-        files: { 'dist/bootstro.min.css':['dist/bootstro.css'] }
+        files: { 
+          'dist/bootstro.min.css':['dist/bootstro.css'],
+          'dist/bootstro3.min.css':['dist/bootstro3.css']
+        }
       }
     },
     copy: {
