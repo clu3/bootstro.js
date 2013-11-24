@@ -8,6 +8,8 @@
  * 
  * Bootstrap popover variable width
  * http://stackoverflow.com/questions/10028218/twitter-bootstrap-popovers-multiple-widths-and-other-css-properties
+ *
+ * Version: 1.0.0
  * 
  */
 

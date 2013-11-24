@@ -1,0 +1,21 @@
+{
+  "name": "bootstro.js",
+  "version": "1.0.0",
+  "description": "Tiny JS library taking advantage of bootstrap's popover to help guide your users around",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-cssmin": "~0.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clu3/bootstro.js.git"
+  },
+  "author": "clu3",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clu3/bootstro.js/issues"
+  }
+}
