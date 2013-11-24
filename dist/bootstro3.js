@@ -1,5 +1,6 @@
 /**
  * Bootstro.js Simple way to show your user around, especially first time users 
+ * (bootstrap 3 version)
  * Http://github.com/clu3/bootstro.js
  * 
  * Credit thanks to 
@@ -8,6 +9,8 @@
  * 
  * Bootstrap popover variable width
  * http://stackoverflow.com/questions/10028218/twitter-bootstrap-popovers-multiple-widths-and-other-css-properties
+ *
+ * Version: 1.0.0
  * 
  */
 
@@ -21,11 +24,11 @@ $(document).ready(function(){
 
         var defaults = {
             nextButtonText : 'Next &raquo;', //will be wrapped with button as below
-            //nextButton : '<button class="btn btn-primary btn-mini bootstro-next-btn">Next &raquo;</button>',
+            //nextButton : '<button class="btn btn-primary btn-xs bootstro-next-btn">Next &raquo;</button>',
             prevButtonText : '&laquo; Prev',
-            //prevButton : '<button class="btn btn-primary btn-mini bootstro-prev-btn">&laquo; Prev</button>',
-            finishButtonText : '<i class="icon-ok"></i> Ok I got it, get back to the site',
-            //finishButton : '<button class="btn btn-mini btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
+            //prevButton : '<button class="btn btn-primary btn-xs bootstro-prev-btn">&laquo; Prev</button>',
+            finishButtonText : '<i class="glyphicon-ok"></i> Ok I got it, get back to the site',
+            //finishButton : '<button class="btn btn-xs btn-success bootstro-finish-btn"><i class="glyphicon-ok"></i> Ok I got it, get back to the site</button>',
             stopOnBackdropClick : true,
             stopOnEsc : true,
             
@@ -69,14 +72,14 @@ $(document).ready(function(){
             }
             else if ( $el.attr('data-bootstro-nextButtonText') )
             {
-                nextButton = '<button class="btn btn-primary btn-mini bootstro-next-btn">' + $el.attr('data-bootstro-nextButtonText') +  '</button>';
+                nextButton = '<button class="btn btn-primary btn-xs bootstro-next-btn">' + $el.attr('data-bootstro-nextButtonText') +  '</button>';
             }
             else 
             {
                 if (typeof settings.nextButton != 'undefined' /*&& settings.nextButton != ''*/)
                     nextButton = settings.nextButton;
                 else
-                    nextButton = '<button class="btn btn-primary btn-mini bootstro-next-btn">' + settings.nextButtonText + '</button>';
+                    nextButton = '<button class="btn btn-primary btn-xs bootstro-next-btn">' + settings.nextButtonText + '</button>';
             }
             
             if ($el.attr('data-bootstro-prevButton'))
@@ -85,14 +88,14 @@ $(document).ready(function(){
             }
             else if ( $el.attr('data-bootstro-prevButtonText') )
             {
-                prevButton = '<button class="btn btn-primary btn-mini bootstro-prev-btn">' + $el.attr('data-bootstro-prevButtonText') +  '</button>';
+                prevButton = '<button class="btn btn-primary btn-xs bootstro-prev-btn">' + $el.attr('data-bootstro-prevButtonText') +  '</button>';
             }
             else 
             {
                 if (typeof settings.prevButton != 'undefined' /*&& settings.prevButton != ''*/)
                     prevButton = settings.prevButton;
                 else
-                    prevButton = '<button class="btn btn-primary btn-mini bootstro-prev-btn">' + settings.prevButtonText + '</button>';
+                    prevButton = '<button class="btn btn-primary btn-xs bootstro-prev-btn">' + settings.prevButtonText + '</button>';
             }
             
             if ($el.attr('data-bootstro-finishButton'))
@@ -101,14 +104,14 @@ $(document).ready(function(){
             }
             else if ( $el.attr('data-bootstro-finishButtonText') )
             {
-                finishButton = '<button class="btn btn-primary btn-mini bootstro-finish-btn">' + $el.attr('data-bootstro-finishButtonText') +  '</button>';
+                finishButton = '<button class="btn btn-primary btn-xs bootstro-finish-btn">' + $el.attr('data-bootstro-finishButtonText') +  '</button>';
             }
             else 
             {
                 if (typeof settings.finishButton != 'undefined' /*&& settings.finishButton != ''*/)
                     finishButton = settings.finishButton;
                 else
-                    finishButton = '<button class="btn btn-primary btn-mini bootstro-finish-btn">' + settings.finishButtonText + '</button>';
+                    finishButton = '<button class="btn btn-primary btn-xs bootstro-finish-btn">' + settings.finishButtonText + '</button>';
             }
 
         
@@ -200,7 +203,7 @@ $(document).ready(function(){
             
             //resize popover if it's explicitly specified
             //note: this is ugly. Could have been best if popover supports width & height
-            p.template = '<div class="popover" style="' + style + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div>' +
+            p.template = '<div class="popover" style="' + style + '"><div class="arrow"></div><div class="popover-top"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div>' +
              '</div>';
             
             return p;
