@@ -4,12 +4,15 @@ Tiny JS library taking advantage of bootstrap's popover to help guide your users
 
 Latest update and TODOs (2003/09/26)
 ========
+Bootstro now supports bootstrap3. yay! No changes to code if you're using bootstrap 3. 1 line change if you still use bootstrap 2. Please have a look at the demo. Thanks a lot to <a href='https://github.com/clu3/bootstro.js/pull/42'>Netsstea pull request</a> to make this possible.
+
+I removed bootstro.min.js from the repo for less trouble. Please minify bootstro yourself if you need to.
+
 Thanks a lot for the project stars. I've been so busy with project deadlines that I didn't have time/energy to reply to the issues/comments. So a few quick notes and things I will do in the near future
 
  - <a href='http://linkedin.github.io/hopscotch/'>hopscotch<a/> by linkedin is a good alternative. It supports multi-page slideshows by writing stuff to localStorage/cookie
  - Change documentation to encourage making slideshow data from a JS variable or via ajax, rather than injecting data-bootstro-* attributes into HTML. Currenty bootstro.js already supports both methods but the documentation/demo page makes it sound like users should inject slideshow data into HTML. This is not only making HTML dirty but also causes bugs like <a href='https://github.com/clu3/bootstro.js/pull/24'>this unmerged pull request</a>
  - Supports multi-page slideshows like hopscotch
- - Branch and Upgrade to Bootstrap 3
  - Make this project a proper test-driven JS library, like test cases, automatic minify stuff...
  
 Please log issues/comments/pull requests.

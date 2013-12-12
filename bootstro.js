@@ -18,6 +18,7 @@ $(document).ready(function(){
         var count;
         var popovers = []; //contains array of the popovers data
         var activeIndex = null; //index of active item
+        var bootstrapVersion = 3;
 
         var defaults = {
             nextButtonText : 'Next &raquo;', //will be wrapped with button as below
@@ -37,8 +38,6 @@ $(document).ready(function(){
             margin : 100, //if the currently shown element's margin is less than this value
             // the element should be scrolled so that i can be viewed properly. This is useful 
             // for sites which have fixed top/bottom nav bar
-            
-            //bootstrapVersion : 3
         };
         var settings;
         
@@ -63,7 +62,7 @@ $(document).ready(function(){
         {
             var $el = get_element(i);
             var nextButton, prevButton, finishButton, defaultBtnClass;
-            if (settings.bootstrapVersion && settings.bootstrapVersion == 2)
+            if (bootstrapVersion == 2)
                 defaultBtnClass = "btn btn-primary btn-mini";
             else 
                 defaultBtnClass = "btn btn-primary btn-xs"; //default bootstrap version 3
@@ -357,8 +356,12 @@ $(document).ready(function(){
             {
                 bootstro._start(selector);
             }
-            
         };
+        
+        bootstro.set_bootstrap_version = function(ver)
+        {
+            bootstrapVersion = ver;
+        }
           
         //bind the nav buttons click event
         bootstro.bind = function()
