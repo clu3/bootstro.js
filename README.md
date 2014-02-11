@@ -2,7 +2,7 @@ Bootstro.js
 ========
 Tiny JS library taking advantage of bootstrap's popover to help guide your users around. <a href='http://clu3.github.com/bootstro.js'>Demo</a>
 
-Latest update (2003/12/12)
+Latest update (2013/12/12)
 ========
 Bootstro now supports bootstrap3. yay! No changes to code if you're using bootstrap 3. 1 line change if you still use bootstrap 2. Please have a look at the demo. Thanks a lot to <a href='https://github.com/clu3/bootstro.js/pull/42'>Netsstea pull request</a> to make this possible.
 
