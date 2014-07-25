@@ -16,7 +16,7 @@
     right: 0;
     top: 0;
     z-index: 1;
-    filter: alpha(opacity = 50);    
+    filter: alpha(opacity=50);
 }
 .bootstro-highlight
 {
@@ -38,9 +38,9 @@
     margin-top:10px;
 }
 
-.bootstro-nav-wrapper button, .bootstro-finish-btn-wrapper button 
+.bootstro-nav-wrapper button, .bootstro-finish-btn-wrapper button
 {
-	font-size:12px !important;	
+	font-size:12px !important;
 	padding : 3px 5px 3px 5px !important;
 	font-weight:bold;
 }
