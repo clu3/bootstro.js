@@ -201,6 +201,9 @@ $(document).ready(function(){
             p.trigger = 'manual'; //always set to manual.
            
             p.html = $el.attr('data-bootstro-html') || 'top';
+            if ($el.attr('data-bootstro-container')) {
+                p.container = $el.attr('data-bootstro-container');
+            }
             
             //resize popover if it's explicitly specified
             //note: this is ugly. Could have been best if popover supports width & height
