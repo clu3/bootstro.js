@@ -289,9 +289,9 @@ $(document).ready(function(){
             }
             else 
             {
-                bootstro.go_to(activeIndex + 1);
                 if (typeof settings.onStep == 'function')
                     settings.onStep.call(this, {idx : activeIndex, direction : 'next'});//
+                bootstro.go_to(activeIndex + 1);
             }
         };
         
@@ -306,9 +306,9 @@ $(document).ready(function(){
             }
             else
             {
-                bootstro.go_to(activeIndex -1);
                 if (typeof settings.onStep == 'function')
                     settings.onStep.call(this, {idx : activeIndex, direction : 'prev'});//
+                bootstro.go_to(activeIndex -1);
             }
         };
         
