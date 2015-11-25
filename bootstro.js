@@ -28,7 +28,8 @@ $(document).ready(function(){
             finishButtonText : '<i class="icon-ok"></i> Ok I got it, get back to the site',
             //finishButton : '<button class="btn btn-xs btn-success bootstro-finish-btn"><i class="icon-ok"></i> Ok I got it, get back to the site</button>',
             stopOnBackdropClick : true,
-            stopOnEsc : true,
+            stopOnEsc: true,
+            allowAjaxInvisElements: false,
             
             //onComplete : function(params){} //params = {idx : activeIndex}
             //onExit : function(params){} //params = {idx : activeIndex}
@@ -136,12 +137,13 @@ $(document).ready(function(){
         {
             var selectorArr = [];
             $.each(popover, function(t,e){
-                //only deal with the visible element
+                //only deal with the visible element, unless flag is set
                 //build the selector
                 $.each(e, function(j, attr){
                     $(e.selector).attr('data-bootstro-' + j, attr);
                 });
-                if ($(e.selector).is(":visible"))
+
+                if (settings.allowAjaxInvisElements || $(e.selector).is(":visible"))
                     selectorArr.push(e.selector);
             });
             return selectorArr.join(",");
