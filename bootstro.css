@@ -45,4 +45,13 @@
 	font-weight:bold;
 }
 
+.bootstro-backdrop2
+{
+    position: fixed;
+    z-index: 2;
+    opacity: 0.5;
+    background-color: black;
+    filter: alpha(opacity = 50);    
+}
+
 
