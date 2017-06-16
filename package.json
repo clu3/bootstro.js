@@ -1,0 +1,6 @@
+{
+  "name": "bootstro.js",
+  "description": "Tiny JS library using bootstrap's popovers to help guide your users around your website",
+  "main": "bootstro.js",
+  "version": "1.0.0"
+}
