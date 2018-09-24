@@ -152,7 +152,7 @@ $(document).ready(function(){
         {
             //get the element with data-bootstro-step=i 
             //or otherwise the the natural order of the set
-            if ($elements.filter("[data-bootstro-step=" + i +"]").size() > 0)
+            if ($elements.filter("[data-bootstro-step=" + i +"]").length > 0)
                 return $elements.filter("[data-bootstro-step=" + i +"]");
             else 
             {
@@ -317,7 +317,7 @@ $(document).ready(function(){
             selector = selector || '.bootstro';
 
             $elements = $(selector);
-            count  = $elements.size();
+            count  = $elements.length;
             if (count > 0 && $('div.bootstro-backdrop').length === 0)
             {
                 // Prevents multiple copies
